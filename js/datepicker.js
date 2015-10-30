@@ -185,7 +185,7 @@
 					date.setDate(1);
 					data = {weeks:[], test: 10};
 					month = date.getMonth();
-					var dow = (date.getDay() - options.starts) % 7;
+					dow = (date.getDay() - options.starts) % 7;
 					date.addDays(-(dow + (dow < 0 ? 7 : 0)));
 					week = -1;
 					cnt = 0;
@@ -475,9 +475,10 @@
 					var tmp = new Date(options.current);
 					var changed = false;
 					var fillIt = false;
+					var val;
 					if (parentEl.is('th')) {
 						if (parentEl.hasClass('datepickerWeek') && options.mode == 'range' && !parentEl.next().hasClass('datepickerDisabled')) {
-							var val = parseInt(parentEl.next().text(), 10);
+							val = parseInt(parentEl.next().text(), 10);
 							tmp.addMonths(tblIndex - Math.floor(options.calendars/2));
 							if (parentEl.next().hasClass('datepickerNotInMonth')) {
 								tmp.addMonths(val > 15 ? -1 : 1);
@@ -533,7 +534,7 @@
 								tblEl.get(0).className = 'datepickerViewMonths';
 								break;
 							default:
-								var val = parseInt(el.text(), 10);
+								val = parseInt(el.text(), 10);
 								tmp.addMonths(tblIndex - Math.floor(options.calendars/2));
 								if (parentEl.hasClass('datepickerNotInMonth')) {
 									tmp.addMonths(val > 15 ? -1 : 1);
@@ -696,6 +697,7 @@
 				extendDate(options.locale);
 				options.calendars = Math.max(1, parseInt(options.calendars,10)||1);
 				options.mode = /single|multiple|range/.test(options.mode) ? options.mode : 'single';
+				var i;
 				return this.each(function(){
 					if (!$(this).data('datepicker')) {
 						options.el = this;
@@ -710,7 +712,7 @@
 									options.date.push(((new Date(options.date[0])).setHours(23,59,59,0)).valueOf());
 								}
 							} else {
-								for (var i = 0; i < options.date.length; i++) {
+								for (i = 0; i < options.date.length; i++) {
 									options.date[i] = (parseDate(options.date[i], options.format).setHours(0,0,0,0)).valueOf();
 								}
 								if (options.mode == 'range') {
@@ -735,7 +737,7 @@
 							cal.addClass(options.className);
 						}
 						var html = '';
-						for (var i = 0; i < options.calendars; i++) {
+						for (i = 0; i < options.calendars; i++) {
 							cnt = options.starts;
 							if (i > 0) {
 								html += tpl.space;
