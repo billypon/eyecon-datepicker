@@ -455,22 +455,11 @@
 			},
 			layout = function (el) {
 				var options = $(el).data('datepicker');
+				if (options.tableWidth)
+					return;
 				var cal = $('#' + options.id);
-				if (!options.extraHeight) {
-					var divs = $(el).find('div');
-					options.extraHeight = divs.get(0).offsetHeight + divs.get(1).offsetHeight;
-					options.extraWidth = divs.get(2).offsetWidth + divs.get(3).offsetWidth;
-				}
-				var tbl = cal.find('table:first').get(0);
-				var width = tbl.offsetWidth;
-				var height = tbl.offsetHeight;
-				cal.css({
-					width: width + options.extraWidth + 'px',
-					height: height + options.extraHeight + 'px'
-				}).find('div.datepickerContainer').css({
-					width: width + 'px',
-					height: height + 'px'
-				});
+				var tbls = cal.find('.datepickerCalendar');
+				tbls.width(options.tableWidth = tbls.find(".datepickerDays").width());
 			},
 			click = function(ev) {
 				if ($(ev.target).is('span')) {
@@ -660,7 +649,6 @@
 						visibility: 'hidden',
 						display: 'block'
 					});
-					layout(calEl);
 					switch (options.position){
 						case 'top':
 							top -= calEl.offsetHeight;
@@ -781,7 +769,7 @@
 						}
 						fill(cal.get(0));
 						if (options.flat) {
-							cal.appendTo(this).show().css('position', 'relative');
+							cal.appendTo(this).show();
 							layout(cal.get(0));
 						} else {
 							cal.appendTo(document.body);
@@ -854,17 +842,6 @@
 						}
 					}
 				});
-			},
-			fixLayout: function(){
-				return this.each(function(){
-					if ($(this).data('datepickerId')) {
-						var cal = $('#' + $(this).data('datepickerId'));
-						var options = cal.data('datepicker');
-						if (options.flat) {
-							layout(cal.get(0));
-						}
-					}
-				});
 			}
 		};
 	}();
@@ -874,8 +851,7 @@
 		DatePickerShow: DatePicker.showPicker,
 		DatePickerSetDate: DatePicker.setDate,
 		DatePickerGetDate: DatePicker.getDate,
-		DatePickerClear: DatePicker.clear,
-		DatePickerLayout: DatePicker.fixLayout
+		DatePickerClear: DatePicker.clear
 	});
 })(jQuery);
 
