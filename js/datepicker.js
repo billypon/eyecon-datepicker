@@ -18,11 +18,11 @@
 				wrapper: '<div class="datepicker"><div class="datepickerBorderT" /><div class="datepickerBorderB" /><div class="datepickerBorderL" /><div class="datepickerBorderR" /><div class="datepickerBorderTL" /><div class="datepickerBorderTR" /><div class="datepickerBorderBL" /><div class="datepickerBorderBR" /><div class="datepickerContainer"><table cellspacing="0" cellpadding="0"><tbody><tr></tr></tbody></table></div></div>',
 				head: [
 					'<td>',
-					'<table cellspacing="0" cellpadding="0">',
+					'<table class="datepickerCalendar" cellspacing="0" cellpadding="0">',
 						'<thead>',
 							'<tr>',
 								'<th class="datepickerGoPrev"><a href="#"><span><%=prev%></span></a></th>',
-								'<th colspan="6" class="datepickerMonth"><a href="#"><span></span></a></th>',
+								'<th class="datepickerMonth" colspan="<%=colspan%>"><a href="#"><span></span></a></th>',
 								'<th class="datepickerGoNext"><a href="#"><span><%=next%></span></a></th>',
 							'</tr>',
 							'<tr class="datepickerDoW">',
@@ -106,22 +106,28 @@
 				months: [
 					'<tbody class="<%=className%>">',
 						'<tr>',
-							'<td colspan="2"><a href="#"><span><%=data[0]%></span></a></td>',
-							'<td colspan="2"><a href="#"><span><%=data[1]%></span></a></td>',
-							'<td colspan="2"><a href="#"><span><%=data[2]%></span></a></td>',
-							'<td colspan="2"><a href="#"><span><%=data[3]%></span></a></td>',
-						'</tr>',
-						'<tr>',
-							'<td colspan="2"><a href="#"><span><%=data[4]%></span></a></td>',
-							'<td colspan="2"><a href="#"><span><%=data[5]%></span></a></td>',
-							'<td colspan="2"><a href="#"><span><%=data[6]%></span></a></td>',
-							'<td colspan="2"><a href="#"><span><%=data[7]%></span></a></td>',
-						'</tr>',
-						'<tr>',
-							'<td colspan="2"><a href="#"><span><%=data[8]%></span></a></td>',
-							'<td colspan="2"><a href="#"><span><%=data[9]%></span></a></td>',
-							'<td colspan="2"><a href="#"><span><%=data[10]%></span></a></td>',
-							'<td colspan="2"><a href="#"><span><%=data[11]%></span></a></td>',
+							'<td colspan="8">',
+								'<table cellspacing="0" cellpadding="0" width="100%">',
+									'<tr>',
+										'<td width="25%"><a href="#"><span><%=data[0]%></span></a></td>',
+										'<td width="25%"><a href="#"><span><%=data[1]%></span></a></td>',
+										'<td width="25%"><a href="#"><span><%=data[2]%></span></a></td>',
+										'<td><a href="#"><span><%=data[3]%></span></a></td>',
+									'</tr>',
+									'<tr>',
+										'<td width="25%"><a href="#"><span><%=data[4]%></span></a></td>',
+										'<td width="25%"><a href="#"><span><%=data[5]%></span></a></td>',
+										'<td width="25%"><a href="#"><span><%=data[6]%></span></a></td>',
+										'<td><a href="#"><span><%=data[7]%></span></a></td>',
+									'</tr>',
+									'<tr>',
+										'<td width="25%"><a href="#"><span><%=data[8]%></span></a></td>',
+										'<td width="25%"><a href="#"><span><%=data[9]%></span></a></td>',
+										'<td width="25%"><a href="#"><span><%=data[10]%></span></a></td>',
+										'<td><a href="#"><span><%=data[11]%></span></a></td>',
+									'</tr>',
+								'</table>',
+							'</td>',
 						'</tr>',
 					'</tbody>'
 				]
@@ -138,6 +144,7 @@
 				format: 'Y-m-d',
 				position: 'bottom',
 				eventName: 'click',
+				weeks: true,
 				onRender: function(){return {};},
 				onChange: function(){return true;},
 				onShow: function(){return true;},
@@ -152,16 +159,20 @@
 					weekMin: 'wk'
 				}
 			},
+			table = function(cal) {
+				return $(".datepickerTable, .datepickerCalendar", cal);
+			},
 			fill = function(el) {
 				var options = $(el).data('datepicker');
 				var cal = $(el);
 				var currentCal = Math.floor(options.calendars/2), date, data, dow, month, cnt = 0, week, days, indic, indic2, html, tblCal;
-				cal.find('td>table tbody').remove();
+				cal.find('.datepickerCalendar > tbody').remove();
+				var tblCals = table(cal);
 				for (var i = 0; i < options.calendars; i++) {
 					date = new Date(options.current);
 					date.addMonths(-currentCal + i);
-					tblCal = cal.find('table').eq(i+1);
-					switch (tblCal[0].className) {
+					tblCal = tblCals.eq(i+1);
+					switch (tblCal[0].className.replace(/ ?datepickerCalendar ?/, "")) {
 						case 'datepickerViewDays':
 							dow = formatDate(date, 'B, Y');
 							break;
@@ -171,7 +182,7 @@
 						case 'datepickerViewYears':
 							dow = (date.getFullYear()-6) + ' - ' + (date.getFullYear()+5);
 							break;
-					} 
+					}
 					tblCal.find('thead tr:first th:eq(1) span').text(dow);
 					dow = date.getFullYear()-6;
 					data = {
@@ -234,6 +245,9 @@
 					};
 					html = tmpl(tpl.months.join(''), data) + html;
 					tblCal.append(html);
+					if (!options.weeks) {
+						tblCal.find(".datepickerWeek").remove();
+					}
 				}
 			},
 			parseDate = function (date, format) {
@@ -470,12 +484,13 @@
 					}
 					var options = $(this).data('datepicker');
 					var parentEl = el.parent();
-					var tblEl = parentEl.parent().parent().parent();
-					var tblIndex = $('table', this).index(tblEl.get(0)) - 1;
+					var tblEl = parentEl.closest(".datepickerCalendar");
+					var tblIndex = table(this).index(tblEl.get(0)) - 1;
 					var tmp = new Date(options.current);
 					var changed = false;
 					var fillIt = false;
 					var val;
+					var tblElClass = tblEl.get(0).className.replace(/ ?datepickerCalendar ?/, "");
 					if (parentEl.is('th')) {
 						if (parentEl.hasClass('datepickerWeek') && options.mode == 'range' && !parentEl.next().hasClass('datepickerDisabled')) {
 							val = parseInt(parentEl.next().text(), 10);
@@ -493,22 +508,24 @@
 							options.lastSel = false;
 						} else if (parentEl.hasClass('datepickerMonth')) {
 							tmp.addMonths(tblIndex - Math.floor(options.calendars/2));
-							switch (tblEl.get(0).className) {
+							var className;
+							switch (tblElClass) {
 								case 'datepickerViewDays':
-									tblEl.get(0).className = 'datepickerViewMonths';
+									className = 'datepickerViewMonths';
 									el.find('span').text(tmp.getFullYear());
 									break;
 								case 'datepickerViewMonths':
-									tblEl.get(0).className = 'datepickerViewYears';
+									className = 'datepickerViewYears';
 									el.find('span').text((tmp.getFullYear()-6) + ' - ' + (tmp.getFullYear()+5));
 									break;
 								case 'datepickerViewYears':
-									tblEl.get(0).className = 'datepickerViewDays';
+									className = 'datepickerViewDays';
 									el.find('span').text(formatDate(tmp, 'B, Y'));
 									break;
 							}
+							tblEl.get(0).className = 'datepickerCalendar ' + className;
 						} else if (parentEl.parent().parent().is('thead')) {
-							switch (tblEl.get(0).className) {
+							switch (tblElClass) {
 								case 'datepickerViewDays':
 									options.current.addMonths(parentEl.hasClass('datepickerGoPrev') ? -1 : 1);
 									break;
@@ -522,16 +539,16 @@
 							fillIt = true;
 						}
 					} else if (parentEl.is('td') && !parentEl.hasClass('datepickerDisabled')) {
-						switch (tblEl.get(0).className) {
+						switch (tblElClass) {
 							case 'datepickerViewMonths':
 								options.current.setMonth(tblEl.find('tbody.datepickerMonths td').index(parentEl));
 								options.current.setFullYear(parseInt(tblEl.find('thead th.datepickerMonth span').text(), 10));
 								options.current.addMonths(Math.floor(options.calendars/2) - tblIndex);
-								tblEl.get(0).className = 'datepickerViewDays';
+								tblEl.get(0).className = 'datepickerCalendar datepickerViewDays';
 								break;
 							case 'datepickerViewYears':
 								options.current.setFullYear(parseInt(el.text(), 10));
-								tblEl.get(0).className = 'datepickerViewMonths';
+								tblEl.get(0).className = 'datepickerCalendar datepickerViewMonths';
 								break;
 							default:
 								val = parseInt(el.text(), 10);
@@ -752,12 +769,16 @@
 									day4: options.locale.daysMin[(cnt++)%7],
 									day5: options.locale.daysMin[(cnt++)%7],
 									day6: options.locale.daysMin[(cnt++)%7],
-									day7: options.locale.daysMin[(cnt++)%7]
+									day7: options.locale.daysMin[(cnt++)%7],
+									colspan: options.weeks ? 6 : 5
 								});
 						}
 						cal
 							.find('tr:first').append(html)
-								.find('table').addClass(views[options.view]);
+								.find('.datepickerCalendar').addClass(views[options.view]);
+						if (!options.weeks) {
+							cal.find(".datepickerDoW th:first-child").remove();
+						}
 						fill(cal.get(0));
 						if (options.flat) {
 							cal.appendTo(this).show().css('position', 'relative');
