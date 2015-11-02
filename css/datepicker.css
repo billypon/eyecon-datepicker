@@ -1,20 +1,10 @@
-div.datepicker {
-	position: relative;
+.datepickerContainer {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
-	width: 196px;
-	height: 147px;
-	position: absolute;
 	cursor: default;
-	top: 0;
-	left: 0;
-	display: none;
-}
-.datepickerContainer {
+	display: inline-block;
 	background: #121212;
-	position: absolute;
-	top: 10px;
-	left: 10px;
+	padding: 10px;
 }
 .datepickerBorderT {
 	position: absolute;
@@ -83,29 +73,29 @@ div.datepicker {
 .datepickerHidden {
 	display: none;
 }
-div.datepicker table {
+div.datepickerContainer table {
 	border-collapse:collapse;
 }
-div.datepicker a {
+div.datepickerContainer a {
 	color: #eee;
 	text-decoration: none;
 	cursor: default;
 	outline: none;
 }
-div.datepicker table td {
+div.datepickerContainer table td {
 	text-align: right;
 	padding: 0;
 	margin: 0;
 }
-div.datepicker th {
+div.datepickerContainer th {
 	text-align: center;
 	color: #999;
 	font-weight: normal;
 }
-div.datepicker tbody th {
+div.datepickerContainer tbody th {
 	text-align: left;
 }
-div.datepicker tbody a {
+div.datepickerContainer tbody a {
 	display: block;
 }
 .datepickerDays a {
@@ -134,14 +124,14 @@ tbody.datepickerYears td.datepickerSelected,
 tbody.datepickerMonths td.datepickerSelected{
 	background: #17384d;
 }
-div.datepicker a:hover,
-div.datepicker a:hover {
+div.datepickerContainer a:hover,
+div.datepickerContainer a:hover {
 	color: #88c5eb;
 }
-div.datepicker td.datepickerNotInMonth a:hover {
+div.datepickerContainer td.datepickerNotInMonth a:hover {
 	color: #999;
 }
-div.datepicker tbody th {
+div.datepickerContainer tbody th {
 	text-align: left;
 }
 .datepickerSpace div {

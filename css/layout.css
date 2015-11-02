@@ -284,3 +284,7 @@ input.inputDate {
 #widgetCalendar .datepicker a:hover{
 	color: #b6f063;
 }
+body > .datepickerContainer {
+	display: none;
+	position: absolute;
+}

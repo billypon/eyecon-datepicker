@@ -38,7 +38,7 @@
 				<h3>License</h3>
 				<p>Dual licensed under the MIT and GPL licenses.</p>
                 <h3>Examples</h3>
-				<p id="date"></p>
+				<p id="date" class="datepicker"></p>
 				<p>Flat mode, single selection, the week start monday.</p>
 			<pre>$('#date').DatePicker({
 	flat: true,
@@ -48,7 +48,7 @@
 	starts: 1
 });</pre>
 				<p>Flat mode, multiple selection, disabled dates, special day, the week start sunday.</p>
-				<p id="date2"></p>
+				<p id="date2" class="datepicker"></p>
 			<pre>$('#date2').DatePicker({
 	flat: true,
 	date: ['2008-07-31', '2008-07-28'],
@@ -67,7 +67,7 @@
 				<p><a href="#" id="clearSelection">Clear selection</a></p>
 				<pre>$('#date3').DatePickerClear();</pre>
 				<p>Flat mode, range selection, 3 calendars.</p>
-				<p id="date3"></p>
+				<p id="date3" class="datepicker"></p>
 			<pre>$('#date3').DatePicker({
 	flat: true,
 	date: ['2008-07-28','2008-07-31'],
@@ -77,7 +77,7 @@
 	starts: 1
 });</pre>
 				<p>Attached to an text field and usign callbacks to update the date selection with the value from the field.</p>
-				<p>
+				<p class="datepicker">
 					<input class="inputDate" id="inputDate" value="06/14/2008" />
 					<label id="closeOnSelect"><input type="checkbox" /> Close on selection</label>
 				</p>
@@ -103,7 +103,7 @@
 						<span>28 July, 2008 &divide; 31 July, 2008</span>
 						<a href="#">Select date range</a>
 					</div>
-					<div id="widgetCalendar">
+					<div id="widgetCalendar" class="datepicker">
 					</div>
 				</div>
 				<p>&nbsp;</p>
