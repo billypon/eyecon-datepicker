@@ -708,11 +708,10 @@
 						options.el = this;
 						if (options.date.constructor == String) {
 							options.date = parseDate(options.date, options.format);
-							options.date.setHours(0,0,0,0);
 						}
 						if (options.mode != 'single') {
 							if (options.date.constructor != Array) {
-								options.date = [options.date.valueOf()];
+								options.date = [options.date.setHours(0,0,0,0).valueOf()];
 								if (options.mode == 'range') {
 									options.date.push(((new Date(options.date[0])).setHours(23,59,59,0)).valueOf());
 								}
@@ -725,7 +724,7 @@
 								}
 							}
 						} else {
-							options.date = options.date.valueOf();
+							options.date = options.date.setHours(0,0,0,0).valueOf();
 						}
 						if (!options.current) {
 							options.current = new Date();
@@ -800,11 +799,10 @@
 						options.date = date;
 						if (options.date.constructor == String) {
 							options.date = parseDate(options.date, options.format);
-							options.date.setHours(0,0,0,0);
 						}
 						if (options.mode != 'single') {
 							if (options.date.constructor != Array) {
-								options.date = [options.date.valueOf()];
+								options.date = [options.date.setHours(0,0,0,0).valueOf()];
 								if (options.mode == 'range') {
 									options.date.push(((new Date(options.date[0])).setHours(23,59,59,0)).valueOf());
 								}
@@ -817,7 +815,7 @@
 								}
 							}
 						} else {
-							options.date = options.date.valueOf();
+							options.date = options.date.setHours(0,0,0,0).valueOf();
 						}
 						if (shiftTo) {
 							options.current = new Date (options.mode != 'single' ? options.date[0] : options.date);
